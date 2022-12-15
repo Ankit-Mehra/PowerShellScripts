@@ -1,6 +1,6 @@
 *For DeleteTFS*
 
-Visual Studio File Remover PowerShell Script
+*Visual Studio File Remover PowerShell Script*
 This is an Explanation for the PowerShell Script that removes the files from TFs
 - Parameters - Solution The path to the .sln file (Mandatory)
 - Parameters - FilePath The path to the file containing the names of files to deleted. (Mandatory)
