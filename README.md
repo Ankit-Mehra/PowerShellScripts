@@ -17,10 +17,10 @@ Remember to check the path of the TF.exe (TfPath). It can be different for diffe
 `.\VisualStudioFileRemoval.ps1 "C:\bureau\Bureau\CeridianTax\Dev\DevNG+1\Ceridian.NextGenACADB\Ceridian.NextGenACADB.sln" "C:\bureau\test.txt" -DeleteFromTfs`
 
 In the example above 
-•	“.\VisualStudioFileRemoval.ps1“ is the name of the script
-•	“"C:\bureau\Bureau\CeridianTax\Dev\DevNG+1\Ceridian.NextGenACADB\Ceridian.NextGenACADB.sln"“ is the path of the solution file     from  which we need to remove files
-•	“"C:\bureau\test.txt"“ is the path of the text file containing the name of files to be deleted
-•	“-DeleteFromTfs“ is the parameter if provided will mark the file as pending deletion in tfs.
+-	“.\VisualStudioFileRemoval.ps1“ is the name of the script
+-	“"C:\bureau\Bureau\CeridianTax\Dev\DevNG+1\Ceridian.NextGenACADB\Ceridian.NextGenACADB.sln"“ is the path of the solution file     from  which we need to remove files
+-	“"C:\bureau\test.txt"“ is the path of the text file containing the name of files to be deleted
+-	“-DeleteFromTfs“ is the parameter if provided will mark the file as pending deletion in tfs.
  
   Related Articles/References
 Some of the articles or posts that I referenced for making this PowerShell Script 
