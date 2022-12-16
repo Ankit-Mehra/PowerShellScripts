@@ -26,14 +26,14 @@ param(
 	[Parameter(Position=1, Mandatory=$true)]
 	[string]$ReferencesDir,
     [Parameter(Position=2, Mandatory=$true)]
-	[string[]]$Projects,
+	[string]$ProjectsFile,
     [Parameter(Position=3, Mandatory=$false)]
 	[string]$OutputPath = "."
 )
 
 $ErrorActionPreference = "Stop"
 $storedProcFromFile = [IO.File]::ReadAllLines($ProceduresFile)
-
+$projectFromFile = [IO.File]::ReadAllLines($ProjectsFile)
 function Search-PSfile
 {
     param(
@@ -46,7 +46,7 @@ function Search-PSfile
     $textName = "${procedureName}.txt"
 
     # transforming the project names into Regex with boundary condition(\b)
-    $dirPattern = $Projects | ForEach-Object{
+    $dirPattern = $projectFromFile | ForEach-Object{
         $_ = $_.Trim()
         $_ = "\b${_}.\b"
         $_
@@ -144,7 +144,7 @@ function Write-PSfile
 $storedProcFromFile | ForEach-Object{
     $isUsed = Search-PSfile -ReferencesDir $ReferencesDir -Project $Project -file $_ -OutputPath $OutputPath
 
-    if($isUsed[-1])
+    if($true -in $isUsed)
     {
         Write-PSfile -OutputPath $OutputPath -File $_ -FileName "Used.txt" -Text "Used"
         
