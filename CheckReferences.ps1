@@ -52,7 +52,8 @@ function Search-PSfile
         $_
     }
 
-    $filePattern = "\b${procedureName}\b"
+    $searchFile = $file.Split(".")[0].Trim()
+    $filePattern = "\b${searchFile}\b"
     $fileContent = Get-ChildItem -Path $ReferencesDir -Filter $textName -Recurse | Get-Content
 
     #check for Constant.cs files in project directory-- returs true if present
@@ -60,10 +61,9 @@ function Search-PSfile
             Select-String -Pattern "\bConstants.cs\b" |
             Select-String -Pattern $dirPattern |
             ForEach-Object{
-                Get-Content $_ | 
-                Select-String -Pattern $filePattern | 
-                Select-String -Pattern "\/\/" -NotMatch | # Regex for comment //
-                Select-String -Pattern "(/\*([^*]|(\*+[^*/]))*\*+/)|(//.*)" -NotMatch -Quiet #Regex for /**/
+                Get-Content $_  |
+                Select-String '(?sm)/\*.*?\*/|^[ \t]*//[^\r\n]*'  -NotMatch | # pattern for comments 
+                Select-String -Pattern $filePattern -Quiet
             })
 
     #check for .cs files in project directory besides Constants.cs .. returs true if present 
@@ -72,25 +72,36 @@ function Search-PSfile
                     Select-String -Pattern "\bConstants.cs\b" -NotMatch |
                     Select-String -Pattern $dirPattern  |
                     ForEach-Object{
-                        Get-Content $_ | 
-                                Select-String -Pattern $filePattern | 
-                                Select-String -Pattern "\/\/" -NotMatch |
-                                Select-String -Pattern "(/\*([^*]|(\*+[^*/]))*\*+/)|(//.*)" -NotMatch -Quiet
+                        (Get-Content $_ -Raw) -replace '(?sm)/\*.*?\*/[ \t]*(?:\r?\n)?|^[ \t]*//[^\r\n]*(?:\r?\n)?' |
+                        Select-String -Pattern $filePattern -Quiet
                     })
     
+
+    #check for .odx or .xsd files in project directory and check if file in there in the content.
+    $isOdxXsd = [bool]($fileContent |
+                        Select-String -Pattern "\.odx","\.xsd" |
+                        Select-String -Pattern $filePattern -NotMatch |
+                        Select-String -Pattern $dirPattern |
+                        ForEach-Object{
+                            Get-Content $_ | 
+                                    Select-String -Pattern $filePattern |
+                                    Select-String -Pattern "<!--[\s\S]*?-->" -NotMatch -Quiet #Regex for Html/Xml comment
+                        })
+
+
     #check for .sql files other than itself.. returs true if present
     $isUsedSql = [bool]($fileContent |
-                Select-String -Pattern "\.sql" |
+                Select-String -Pattern "\.sql"|
                 Select-String -Pattern $filePattern -NotMatch |
                 Select-String -Pattern $dirPattern -Quiet)
 
     # if there are no constant files and no .sql file and no there .cs files then SP is not used
-    If(!$isConstantFile -and !$isUsedSql -and !$isOtherCsFile)
+    If(!$isConstantFile -and !$isUsedSql -and !$isOtherCsFile -and !$isOdxXsd)
     {
         return $false
     }
     # If there are Constants.cs then write SP name in Used.txt end function
-    Elseif ($isConstantFile -or $isOtherCsFile)
+    Elseif ($isConstantFile -or $isOtherCsFile -or $isOdxXsd)
     {
         return $true
     }
