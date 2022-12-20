@@ -10,8 +10,8 @@ The path to the file containing the Stored Procedure
 The Path of the Directory containing files that have references to stored 
 procdure(Output directory of String Search)
 
-.PARAMETER Project,
-Name of the Project that we are checking Ex. "Ceridian.NextGen"
+.PARAMETER ProjectFile,
+Path of the Project file containing the name of project files that we are checking
 
 .PARAMETER OutputPath
 File path were you want to store the Used.txt and NotUsed.txt files. Default is same 
