@@ -50,6 +50,7 @@ if($arrayFromFile.Count -ne $fullPaths.Count)
 	exit
 }
 
+$DeleteFromTfs = $true
 if ($DeleteFromTfs) 
 {
 	Write-Host "Marking files as deleted in TFS..."
@@ -64,7 +65,8 @@ if ($DeleteFromTfs)
 	Write-Host "Deleting References from Project file .."
 	foreach($file in $arrayFromFile)
 	{
-		(get-content $projectFileName | select-string -pattern \b$file\b -notmatch) | Set-Content $projectFile -Encoding UTF8
+		$filePattern = "\b${file}\b"
+		(get-content $projectFileName | select-string -pattern $filePattern -notmatch) | Set-Content $projectFileName -Encoding UTF8
 	}
 	Write-Host "Total" $arrayFromFile.Count "line references was deleted from" $projectFileName
 } 
