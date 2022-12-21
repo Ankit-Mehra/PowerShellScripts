@@ -8,7 +8,7 @@ The path to the file containing the Stored Procedure
 
 .PARAMETER ReferencesDir
 The Path of the Directory containing files that have references to stored 
-procdure(Output directory of String Search)
+procedure (Output directory of String Search)
 
 .PARAMETER ProjectFile,
 Path of the Project file containing the name of project files that we are checking
@@ -38,7 +38,6 @@ function Search-PSfile
 {
     param(
         [string] $ReferencesDir,
-        [string] $Project,
         [string] $file
     )
 
@@ -55,9 +54,15 @@ function Search-PSfile
     $searchFile = $file.Split(".")[0].Trim()
     $filePattern = "\b${searchFile}\b"
     $fileContent = Get-ChildItem -Path $ReferencesDir -Filter $textName -Recurse | Get-Content
+    $cleanFileContent = $fileContent | ForEach-Object {
+        if($_.Contains("|")){
+            $_ = $_.Split("|")[0]
+            $_
+        }
+    }
 
     #check for Constant.cs files in project directory-- returs true if present
-    $isConstantFile = [bool]($fileContent |
+    $isConstantFile = [bool]($cleanFileContent |
             Select-String -Pattern "\bConstants.cs\b" |
             Select-String -Pattern $dirPattern |
             ForEach-Object{
@@ -67,7 +72,7 @@ function Search-PSfile
             })
 
     #check for .cs files in project directory besides Constants.cs .. returs true if present 
-    $isOtherCsFile = [bool]($fileContent |
+    $isOtherCsFile = [bool]($cleanFileContent |
                     Select-String -Pattern "\b.cs\b" |
                     Select-String -Pattern "\bConstants.cs\b" -NotMatch |
                     Select-String -Pattern $dirPattern  |
@@ -78,7 +83,7 @@ function Search-PSfile
     
 
     #check for .odx or .xsd files in project directory and check if file in there in the content.
-    $isOdxXsd = [bool]($fileContent |
+    $isOdxXsd = [bool]($cleanFileContent |
                         Select-String -Pattern "\.odx","\.xsd" |
                         Select-String -Pattern $filePattern -NotMatch |
                         Select-String -Pattern $dirPattern |
@@ -88,11 +93,13 @@ function Search-PSfile
                                     Select-String -Pattern "<!--[\s\S]*?-->" -NotMatch -Quiet #Regex for Html/Xml comment
                         })
 
-
+    
+    $sqlPattern = "(?smi)(exec.*${searchFile})"
     #check for .sql files other than itself.. returs true if present
-    $isUsedSql = [bool]($fileContent |
+    $isUsedSql = [bool]($cleanFileContent |
                 Select-String -Pattern "\.sql"|
                 Select-String -Pattern $filePattern -NotMatch |
+                Select-String -Pattern "(?smi)(.*bin.*)" -NotMatch |
                 Select-String -Pattern $dirPattern -Quiet)
 
     # if there are no constant files and no .sql file and no there .cs files then SP is not used
@@ -108,19 +115,20 @@ function Search-PSfile
     # if there are no .cs files only .sql files then do a recusion and check for that .sql file
     Elseif ($isUsedSql) 
     {
-        $fileContent|
+        $cleanFileContent|
         Select-String -Pattern "\.sql" |
         Select-String -Pattern $filePattern -NotMatch |
+        Select-String -Pattern "(?smi)(.*bin.*)" -NotMatch | # ignoring /bin/ files
         Select-String -Pattern $dirPattern |
         ForEach-Object{
             $isUnCommented = [bool](Get-Content $_ | 
-                                    Select-String -Pattern $filePattern |
+                                    Select-String -Pattern $sqlPattern |
                                     Select-String -Pattern "(--)+.*(exec|EXEC|Exec)+" -NotMatch |
                                     Select-String -Pattern "(/\*([^*]|(\*+[^*/]))*\*+/)|(//.*)" -NotMatch -Quiet)
             if($isUnCommented)
             {
                 $sqlFile = (Get-Item $_).Name
-                Search-PSfile -ReferencesDir $ReferencesDir -Project $Project -file $sqlFile -OutputPath $OutputPath
+                Search-PSfile -ReferencesDir $ReferencesDir  -file $sqlFile
             }
             else
             {
@@ -153,7 +161,8 @@ function Write-PSfile
 }
 
 $storedProcFromFile | ForEach-Object{
-    $isUsed = Search-PSfile -ReferencesDir $ReferencesDir -Project $Project -file $_ -OutputPath $OutputPath
+
+    $isUsed = Search-PSfile -ReferencesDir $ReferencesDir -file $_ 
 
     if($true -in $isUsed)
     {
@@ -163,7 +172,6 @@ $storedProcFromFile | ForEach-Object{
     else 
     {
         Write-PSfile -OutputPath $OutputPath -File $_ -FileName "NotUsed.txt" -Text "Not Used"
-        
     }
 }
 
