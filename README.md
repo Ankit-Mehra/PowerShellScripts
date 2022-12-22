@@ -61,20 +61,20 @@ Parameters - OutputPath File path were you want to store the Used.txt and NotUse
 
 Two files used.txt and NotUsed.txt containing the names of the stored procedures used and not used respectively.
 
-:light_bulb_on: Example
+Example
 
- & ./CheckReferences.ps1 "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\Sps.txt" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\SearchResults" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\projects.txt" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\AllSpsTest"
+ `& ./CheckReferences.ps1 "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\Sps.txt" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\SearchResults" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\projects.txt" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\AllSpsTest"`
  In the example above  
 
-“& ./CheckReferences.ps1“ call operator and the name of the PowerShell script 
+`“& ./CheckReferences.ps1` call operator and the name of the PowerShell script 
 
-"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\Sps.txt" is the path of the text files containing the names of the files stored procedure that we want to find references for.
+`"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\Sps.txt"` is the path of the text files containing the names of the files stored procedure that we want to find references for.
 
-"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\SearchResults" is the path of the directory that was the output directory of StringSearch Tool i.e. directory containing the files that have references for stored procedure
+`"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\SearchResults"` is the path of the directory that was the output directory of StringSearch Tool i.e. directory containing the files that have references for stored procedure
 
-"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\projects.txt" is the path of files containing the names of projects that we want to search for references
+`"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\projects.txt"` is the path of files containing the names of projects that we want to search for references
 
-"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\AllSpsTest" is an optional argument if given will store the used and notused files in the given path else it will just store in the directory where the script was ran from.
+`"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\AllSpsTest"` is an optional argument if given will store the used and notused files in the given path else it will just store in the directory where the script was ran from.
 
  
 
