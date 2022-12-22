@@ -39,5 +39,8 @@ if ($UnDeleteFromTfs)
 		$index += 1
 	}
 	Write-Host "Total" $index "was undeleted and moved to TFS Pending Changes"
-
-} 
+}
+else{
+    Write-Host "UnDeleteFromDisk was not specified. Listing of files only..."
+	$arrayFromFile
+}
