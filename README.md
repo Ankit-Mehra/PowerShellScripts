@@ -87,3 +87,48 @@ Some of the articles or posts that I referenced for making this PowerShell Scrip
 
 [Finding Comments in Source Code Using Regular Expressions - Stephen Ostermiller ](https://blog.ostermiller.org/finding-comments-in-source-code-using-regular-expressions/)
  
+
+📜Visual Studio Undeleting PowerShell Script
+
+
+This is an Explanation for the PowerShell Script that undelete the files from TFs
+
+Parameters - FilePath The path to the file containing the names of files to be Undeleted.  (Mandatory)
+
+Parameters - TfPath Path for TF.exe file. It can be different in different machines check if this path is right before execution.  (Not Mandatory)
+
+Parameters - UnDeleteFromTfs Mark files as pending deletion in TFS  (Not Mandatory)
+
+This script has one mandatory parameters (mentioned above). The path of the solution.
+
+if UnDeleteFromTfs is provided as a parameter it will mark those file as pending undeleted in the TFS otherwise it will only show the path of the files.  
+
+ 
+
+Remember to check the path of the TF.exe (TfPath). It can be different for different machines. The default has been set to “"C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\TF.exe"“
+
+Provide the full path of the file that you want to delete in the text file for first parameter
+
+:light_bulb_on: Example
+
+ `& ./UnDeleteFiles.ps1 "C:\bureau\test.txt" -UnDeleteFromTfs`
+ In the example above  
+
+`& ./UnDeleteFiles.ps1`  is the call operator and the name of the script
+
+`"C:\bureau\test.txt"` is the path of the text file containing the name of files to be Undeleted
+
+`-UnDeleteFromTfs` is the parameter if provided will mark the file as pending Undeleted in tfs.
+
+ 
+
+
+You can see that file has been marked undelete in pending changes tab of TFS.
+After the files has been marked as undelete and moved to pending changes folder they still need to be included in the project.
+
+ 
+
+Go to Solution explore click on show all files 
+
+
+(you might have to close of Vs studio if your changes are not reflecting in solution explorer) and then right-click the file that you undeleted and click include in project.
