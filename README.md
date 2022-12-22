@@ -1,6 +1,6 @@
-*For DeleteTFS*
+* For DeleteTFS*
 
-*Visual Studio File Remover PowerShell Script*
+📜Visual Studio File Remover PowerShell Script*
 
 This is an Explanation for the PowerShell Script that removes the files from TFs
 - Parameters - Solution The path to the .sln file (Mandatory)
@@ -61,7 +61,7 @@ Parameters - OutputPath File path were you want to store the Used.txt and NotUse
 
 Two files used.txt and NotUsed.txt containing the names of the stored procedures used and not used respectively.
 
-Example
+💡 Example
 
  `& ./CheckReferences.ps1 "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\Sps.txt" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\SearchResults" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\projects.txt" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\AllSpsTest"`
  In the example above  
