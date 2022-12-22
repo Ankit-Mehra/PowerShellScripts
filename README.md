@@ -29,3 +29,62 @@ https://stackoverflow.com/questions/8800977/remove-unused-cs-files-in-solution
 https://gist.github.com/mikesigs/3512dbccc1767d447977#file-deleteexcludedfiles-ps1 
 https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/?view=powershell-7.3 
 https://learn.microsoft.com/en-us/azure/devops/repos/tfvc/use-team-foundation-version-control-commands?view=azure-devops 
+
+
+
+
+
+
+
+Share
+
+
+:scroll:
+Reference Finding Script
+
+Created by Ankit Mehra
+Last updated: yesterday at 1:42 PM2 min read
+2 people viewed
+This is an Explanation for the PowerShell Script that removes the files from TFs
+
+Parameters - ProceduresFile The path to the file containing the Stored Procedure (Mandatory)
+
+Parameters - ReferencesDir The Path of the Directory containing files that have references to stored  procedure (Output directory of String Search Tool) (Mandatory)
+
+Parameters - ProjectsFile Path of the Project file containing the name of project files that we are checking (Not Mandatory)
+
+Parameters - OutputPath File path were you want to store the Used.txt and NotUsed.txt files. Default is same the directory from where script is run. (Not Mandatory)
+
+ 
+
+:outbox_tray: Output
+
+Two files used.txt and NotUsed.txt containing the names of the stored procedures used and not used respectively.
+
+:light_bulb_on: Example
+
+ & ./CheckReferences.ps1 "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\Sps.txt" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\SearchResults" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\projects.txt" "C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\AllSpsTest"
+ In the example above  
+
+“& ./CheckReferences.ps1“ call operator and the name of the PowerShell script 
+
+"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\Sps.txt" is the path of the text files containing the names of the files stored procedure that we want to find references for.
+
+"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\SearchResults" is the path of the directory that was the output directory of StringSearch Tool i.e. directory containing the files that have references for stored procedure
+
+"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\projects.txt" is the path of files containing the names of projects that we want to search for references
+
+"C:\Users\P12A2B3\OneDrive - Ceridian HCM Inc\Desktop\TAXPORTAL_SP\AllSpsTest" is an optional argument if given will store the used and notused files in the given path else it will just store in the directory where the script was ran from.
+
+ 
+
+ 
+
+:clipboard: Related Articles/References
+Some of the articles or posts that I referenced for making this PowerShell Script 
+
+Regular Expression for inline Comments Powershell 
+
+Finding Comments in Source Code Using Regular Expressions - Stephen Ostermiller 
+
+ 
