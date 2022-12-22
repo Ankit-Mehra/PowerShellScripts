@@ -85,6 +85,5 @@ Some of the articles or posts that I referenced for making this PowerShell Scrip
 
 [Regular Expression for inline Comments Powershell ](https://stackoverflow.com/questions/74829156/regular-expression-for-inline-comments-powershell)
 
-Finding Comments in Source Code Using Regular Expressions - Stephen Ostermiller 
-
+[Finding Comments in Source Code Using Regular Expressions - Stephen Ostermiller ](https://blog.ostermiller.org/finding-comments-in-source-code-using-regular-expressions/)
  
